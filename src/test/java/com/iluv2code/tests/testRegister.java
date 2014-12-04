@@ -11,73 +11,92 @@ public class testRegister extends testBaseClass {
     public void testCases() {
         System.out.println("Testing registration of two users");
         register(1, 2, 4, 5);
-
         //TODO:negative test
     }
 
+    /**
+     * Handing the registration process, then valid the result by logging with registration information
+     *
+     * @param startRecord   The first record/row you want to start with
+     * @param endRecord     The last record/row you want to hit
+     * @param contentSheet  The excel sheet number of your content
+     * @param xpathSheet    The excel sheet number of your xpath
+     */
     private void register (int startRecord, int endRecord, int contentSheet, int xpathSheet) {
-        sheet = workbook.getSheet(contentSheet);
-        xpathsheet = workbook.getSheet(xpathSheet);
-        String xpath_join_button = xpathsheet.getCell(0, 1).getContents();
-        String xpath_getStart = xpathsheet.getCell(1, 1).getContents();
-        String xpath_firstName = xpathsheet.getCell(2, 1).getContents();
-        String xpath_lastName= xpathsheet.getCell(3, 1).getContents();
-        String xpath_email = xpathsheet.getCell(4, 1).getContents();
-        String xpath_password = xpathsheet.getCell(5, 1).getContents();
-        String xpath_stocksLabel = xpathsheet.getCell(6, 1).getContents();
-        String xpath_optionsLabel = xpathsheet.getCell(7, 1).getContents();
-        String xpath_fundsLabel = xpathsheet.getCell(8, 1).getContents();
-        String xpath_otherLabel= xpathsheet.getCell(9, 1).getContents();
-        String xpath_biography = xpathsheet.getCell(10, 1).getContents();
-        String xpath_websiteUrl = xpathsheet.getCell(11, 1).getContents();
-        String xpath_acceptedTos = xpathsheet.getCell(12, 1).getContents();
-        String xpath_submitForm = xpathsheet.getCell(13, 1).getContents();
-
-
-        for (int i = startRecord; i <= endRecord; i++) {
+        try {
             sheet = workbook.getSheet(contentSheet);
             xpathsheet = workbook.getSheet(xpathSheet);
+            String xpath_join_button = xpathsheet.getCell(0, 1).getContents();
+            String xpath_getStart = xpathsheet.getCell(1, 1).getContents();
+            String xpath_firstName = xpathsheet.getCell(2, 1).getContents();
+            String xpath_lastName= xpathsheet.getCell(3, 1).getContents();
+            String xpath_email = xpathsheet.getCell(4, 1).getContents();
+            String xpath_password = xpathsheet.getCell(5, 1).getContents();
+            String xpath_stocksLabel = xpathsheet.getCell(6, 1).getContents();
+            String xpath_optionsLabel = xpathsheet.getCell(7, 1).getContents();
+            String xpath_fundsLabel = xpathsheet.getCell(8, 1).getContents();
+            String xpath_otherLabel= xpathsheet.getCell(9, 1).getContents();
+            String xpath_biography = xpathsheet.getCell(10, 1).getContents();
+            String xpath_websiteUrl = xpathsheet.getCell(11, 1).getContents();
+            String xpath_acceptedTos = xpathsheet.getCell(12, 1).getContents();
+            String xpath_submitForm = xpathsheet.getCell(13, 1).getContents();
 
-            driver.navigate().to(baseUrl);
 
-            String firstName = sheet.getCell(0, i).getContents();
-            String lastName = sheet.getCell(1, i).getContents();
-            String email = sheet.getCell(2, i).getContents();
-            String password = sheet.getCell(3, i).getContents();
-            String stocksLabel = sheet.getCell(4, i).getContents();
-            String optionsLabel = sheet.getCell(5, i).getContents();
-            String fundsLabel = sheet.getCell(6, i).getContents();
-            String otherLabel = sheet.getCell(7, i).getContents();
-            String biography = sheet.getCell(8, i).getContents();
-            String websiteUrl = sheet.getCell(9, i).getContents();
-            String acceptedTos = sheet.getCell(10, i).getContents();
+            for (int i = startRecord; i <= endRecord; i++) {
+                sheet = workbook.getSheet(contentSheet);
+                xpathsheet = workbook.getSheet(xpathSheet);
 
-            driver.findElement(By.xpath(xpath_join_button)).click();
-            driver.findElement(By.xpath(xpath_getStart)).click();
+                driver.navigate().to(baseUrl);
 
-            fillForm(xpath_firstName,firstName);
-            fillForm(xpath_lastName,lastName);
-            fillForm(xpath_email,email);
-            fillForm(xpath_password, password);
+                String firstName = sheet.getCell(0, i).getContents();
+                String lastName = sheet.getCell(1, i).getContents();
+                String email = sheet.getCell(2, i).getContents();
+                String password = sheet.getCell(3, i).getContents();
+                String stocksLabel = sheet.getCell(4, i).getContents();
+                String optionsLabel = sheet.getCell(5, i).getContents();
+                String fundsLabel = sheet.getCell(6, i).getContents();
+                String otherLabel = sheet.getCell(7, i).getContents();
+                String biography = sheet.getCell(8, i).getContents();
+                String websiteUrl = sheet.getCell(9, i).getContents();
+                String acceptedTos = sheet.getCell(10, i).getContents();
 
-            selectLabel(xpath_stocksLabel, stocksLabel);
-            selectLabel(xpath_optionsLabel,optionsLabel);
-            selectLabel(xpath_fundsLabel,fundsLabel);
-            selectLabel(xpath_otherLabel,otherLabel);
+                driver.findElement(By.xpath(xpath_join_button)).click();
+                driver.findElement(By.xpath(xpath_getStart)).click();
 
-            fillForm(xpath_biography,biography);
-            fillForm(xpath_websiteUrl, websiteUrl);
+                fillForm(xpath_firstName,firstName);
+                fillForm(xpath_lastName,lastName);
+                fillForm(xpath_email,email);
+                fillForm(xpath_password, password);
 
-            selectLabel(xpath_acceptedTos,acceptedTos);
-            driver.findElement(By.xpath(xpath_submitForm)).click();
+                selectLabel(xpath_stocksLabel, stocksLabel);
+                selectLabel(xpath_optionsLabel,optionsLabel);
+                selectLabel(xpath_fundsLabel,fundsLabel);
+                selectLabel(xpath_otherLabel,otherLabel);
 
-            uploadImage(i, contentSheet, xpathSheet);
+                fillForm(xpath_biography,biography);
+                fillForm(xpath_websiteUrl, websiteUrl);
 
-            testLogin.login(1, 1, 0, 1, email,password);
-            testLogin.logoff();
+                selectLabel(xpath_acceptedTos,acceptedTos);
+                driver.findElement(By.xpath(xpath_submitForm)).click();
+
+                uploadImage(i, contentSheet, xpathSheet);
+
+                testLogin.login(1, 1, 0, 1, email,password);
+                testLogin.logoff();
+            }
+        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            System.out.println("The excel don't have that cell, check your excel file");
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Uploading a picture for user by interacting with hidden input
+     *
+     * @param i                 The record you are working on
+     * @param contentSheet      The excel sheet number of your content
+     * @param xpathSheet        The excel sheet number of your xpath
+     */
     private void uploadImage(int i, int contentSheet, int xpathSheet) {
         sheet = workbook.getSheet(contentSheet);
         xpathsheet = workbook.getSheet(xpathSheet);
@@ -90,7 +109,6 @@ public class testRegister extends testBaseClass {
 
         driver.findElement(By.xpath(xpath_uploadPhoto)).click();
         driver.findElement(By.xpath(xpath_photoInput)).sendKeys(photoInput);
-        //wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath_savePhoto)));
         driver.findElement(By.xpath(xpath_savePhoto)).click();
 
         driver.findElement(By.xpath(xpath_next)).click();
